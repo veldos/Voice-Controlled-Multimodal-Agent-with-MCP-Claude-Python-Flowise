@@ -1,0 +1,214 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Voice-Controlled Multimodal Agent Tools",
+  "description": "JSON schema definitions for MCP tools in the voice-controlled multimodal agent",
+  "definitions": {
+    "transcribe_audio": {
+      "type": "object",
+      "description": "Transcribe audio input to text using OpenAI Whisper",
+      "properties": {
+        "audio_data": {
+          "type": "string",
+          "description": "Base64 encoded audio data"
+        },
+        "language": {
+          "type": "string",
+          "description": "Language code (e.g., 'en', 'es', 'fr')",
+          "default": "en"
+        },
+        "model": {
+          "type": "string",
+          "description": "Whisper model to use",
+          "enum": ["tiny", "base", "small", "medium", "large"],
+          "default": "base"
+        }
+      },
+      "required": ["audio_data"]
+    },
+    "search_documents": {
+      "type": "object",
+      "description": "Search through documents using vector similarity",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Search query text"
+        },
+        "collection_name": {
+          "type": "string",
+          "description": "Pinecone collection to search",
+          "default": "documents"
+        },
+        "top_k": {
+          "type": "integer",
+          "description": "Number of results to return",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 5
+        },
+        "filter": {
+          "type": "object",
+          "description": "Metadata filters to apply",
+          "additionalProperties": true
+        }
+      },
+      "required": ["query"]
+    },
+    "analyze_image": {
+      "type": "object",
+      "description": "Analyze image content using multimodal vision models",
+      "properties": {
+        "image_data": {
+          "type": "string",
+          "description": "Base64 encoded image data or image URL"
+        },
+        "task": {
+          "type": "string",
+          "description": "Analysis task to perform",
+          "enum": ["caption", "ocr", "object_detection", "scene_analysis", "question_answering"],
+          "default": "caption"
+        },
+        "question": {
+          "type": "string",
+          "description": "Question to ask about the image (for question_answering task)"
+        }
+      },
+      "required": ["image_data", "task"]
+    },
+    "web_search": {
+      "type": "object",
+      "description": "Search the web for current information",
+      "properties": {
+        "query": {
+          "type": "string",
+          "description": "Search query"
+        },
+        "max_results": {
+          "type": "integer",
+          "description": "Maximum number of results",
+          "minimum": 1,
+          "maximum": 20,
+          "default": 5
+        },
+        "safe_search": {
+          "type": "boolean",
+          "description": "Enable safe search filtering",
+          "default": true
+        }
+      },
+      "required": ["query"]
+    },
+    "summarize_content": {
+      "type": "object",
+      "description": "Summarize text content using AI",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "Text content to summarize"
+        },
+        "max_length": {
+          "type": "integer",
+          "description": "Maximum length of summary in words",
+          "minimum": 50,
+          "maximum": 1000,
+          "default": 200
+        },
+        "style": {
+          "type": "string",
+          "description": "Summary style",
+          "enum": ["bullet_points", "paragraph", "key_insights", "executive"],
+          "default": "paragraph"
+        }
+      },
+      "required": ["content"]
+    },
+    "extract_document_text": {
+      "type": "object",
+      "description": "Extract text from various document formats",
+      "properties": {
+        "document_path": {
+          "type": "string",
+          "description": "Path to document file"
+        },
+        "document_type": {
+          "type": "string",
+          "description": "Document type",
+          "enum": ["pdf", "docx", "txt", "html", "md"],
+          "default": "pdf"
+        },
+        "page_range": {
+          "type": "string",
+          "description": "Page range to extract (e.g., '1-5', 'all')",
+          "default": "all"
+        }
+      },
+      "required": ["document_path"]
+    },
+    "trigger_automation": {
+      "type": "object",
+      "description": "Trigger n8n automation workflow",
+      "properties": {
+        "workflow_id": {
+          "type": "string",
+          "description": "n8n workflow ID"
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Parameters to pass to workflow",
+          "additionalProperties": true
+        }
+      },
+      "required": ["workflow_id"]
+    }
+  },
+  "tools": [
+    {
+      "name": "transcribe_audio",
+      "description": "Transcribe speech to text",
+      "inputSchema": {
+        "$ref": "#/definitions/transcribe_audio"
+      }
+    },
+    {
+      "name": "search_documents",
+      "description": "Search through document collection",
+      "inputSchema": {
+        "$ref": "#/definitions/search_documents"
+      }
+    },
+    {
+      "name": "analyze_image",
+      "description": "Analyze image content",
+      "inputSchema": {
+        "$ref": "#/definitions/analyze_image"
+      }
+    },
+    {
+      "name": "web_search",
+      "description": "Search the web",
+      "inputSchema": {
+        "$ref": "#/definitions/web_search"
+      }
+    },
+    {
+      "name": "summarize_content",
+      "description": "Summarize text content",
+      "inputSchema": {
+        "$ref": "#/definitions/summarize_content"
+      }
+    },
+    {
+      "name": "extract_document_text",
+      "description": "Extract text from documents",
+      "inputSchema": {
+        "$ref": "#/definitions/extract_document_text"
+      }
+    },
+    {
+      "name": "trigger_automation",
+      "description": "Trigger automation workflow",
+      "inputSchema": {
+        "$ref": "#/definitions/trigger_automation"
+      }
+    }
+  ]
+}

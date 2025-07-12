@@ -1,0 +1,36 @@
+{
+  "mcpServers": {
+    "voice-agent": {
+      "command": "python",
+      "args": [
+        "E:\\file linux\\DLS INTERBSHIP\\Project\\mcp_servers\\voice_agent_server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "your-openai-api-key",
+        "PINECONE_API_KEY": "your-pinecone-api-key",
+        "PINECONE_ENVIRONMENT": "us-west1-gcp",
+        "SERPER_API_KEY": "your-serper-api-key"
+      }
+    },
+    "multimodal-server": {
+      "command": "python",
+      "args": [
+        "E:\\file linux\\DLS INTERBSHIP\\Project\\mcp_servers\\multimodal_server.py"
+      ],
+      "env": {
+        "OPENAI_API_KEY": "your-openai-api-key",
+        "CLAUDE_API_KEY": "your-claude-api-key"
+      }
+    },
+    "automation-server": {
+      "command": "python",
+      "args": [
+        "E:\\file linux\\DLS INTERBSHIP\\Project\\mcp_servers\\automation_server.py"
+      ],
+      "env": {
+        "N8N_API_KEY": "your-n8n-api-key",
+        "FLOWISE_API_KEY": "your-flowise-api-key"
+      }
+    }
+  }
+}
